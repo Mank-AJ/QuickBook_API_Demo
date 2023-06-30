@@ -1,0 +1,90 @@
+/*html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}*/
+
+/*body {
+    background: grey;
+    margin-top: 120px;
+    margin-bottom: 120px;
+}*/
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.fixed-footer {
+    background-color: #f1f1f1;
+    padding: 0px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    
+}
+.footer-flex{
+    padding-bottom:10px;
+}
+/*.fixed-header, .fixed-footer {
+    width: 100%;
+    position: fixed;
+    background: #333;
+    padding: 10px 0;
+    color: #fff;
+}
+
+.fixed-header {
+    top: 0;
+}
+
+.fixed-footer {
+    bottom: 0;
+}*/
+.site-navigation ul,
+.site-navigation li {
+    margin: 0;
+    padding: 0;
+}
+
+.site-navigation li {
+    display: inline-block;
+    margin: 1.4em 1em 1em 1em;
+}
+img {
+    width: auto;
+    max-height: 30%;
+}

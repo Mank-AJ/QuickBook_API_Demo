@@ -1,0 +1,247 @@
+﻿@model dynamic
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<div class="sb-nav-fixed">
+    <div id="body-pd">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class=" p-5">
+                                <div class="col-md-6">
+                                    <img src="~/images/convergesol-final-logo.png">
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <p class="text-muted">Today Date: @DateTime.Today.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            </div>
+                            @{
+                                int SubTotal = 0;
+                                int GrandTotal = 0;
+                            }
+
+                                <div class="row p-5">
+                                    <div class="col-md-12">
+                                        
+                                        <table class="table">
+                                            @if (Model != null)
+                                            {
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Id</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Name</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Billing Address</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Shipping Address</th>
+                                                             <th class="border-0 text-uppercase small font-weight-bold">View Details</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (int e = 0; e < Model.QueryResponse.Invoice.Count; e++)
+                                                    {
+                                                        var BillAddress = Model.QueryResponse.Invoice[e].BillAddr;
+                                                        var BillLine1 = BillAddress?.Line1 ?? "";
+                                                        var BillLine2 = BillAddress?.Line2 ?? "";
+                                                        var BillLine3 = BillAddress?.Line3 ?? "";
+                                                        var BillLine4 = BillAddress?.Line4 ?? "";
+
+                                                        var ShipAddress = Model.QueryResponse.Invoice[e].ShipAddr;
+                                                        var ShipLine1 = ShipAddress?.Line1 ?? "";
+                                                        var ShipCity = ShipAddress?.City ?? "";
+                                                        var ShipCountrySubDivisionCode = ShipAddress?.CountrySubDivisionCode ?? "";
+                                                        var ShipPostalCode = ShipAddress?.PostalCode ?? "";
+                                                            <tr>
+                                                                <td>@e</td>
+                                                                <td>@Model.QueryResponse.Invoice[e].CustomerRef.name</td>
+                                                                <td>@BillLine1,  @BillLine2, @BillLine3, @BillLine4</td>
+                                                                <td>@ShipLine1, @ShipCity, @ShipCountrySubDivisionCode, @ShipPostalCode</td>
+                                                        <td><button class="text-info" onclick="openPopup('@(e)')">view</button> </td>
+                                                            </tr>
+
+                                                        }
+
+                                                </tbody>
+                                            }
+                                            else
+                                            {
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">DESCRIPTION</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">QTY</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">UNIT PRICE</th>
+                                                        @*    <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                                <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>*@
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Due Date</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Remaining days</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="4">No records found.</td>
+                                                    </tr>
+                                                </tbody>
+                                            }
+                                        </table>
+                                        @*</div>*@
+                                        @*</div>
+                                    </div>
+                                    *@
+                                    <div class="modal fade row p-5">
+                                        <div class="col-md-12">
+                                            @*     <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-body">*@
+                                                 @for (int e = 0; e < Model.QueryResponse.Invoice.Count; e++)
+                                            {
+                                                var BillAddress = Model.QueryResponse.Invoice[e].BillAddr;
+                                                var BillLine1 = BillAddress?.Line1 ?? "";
+                                                var BillLine2 = BillAddress?.Line2 ?? "";
+                                                var BillLine3 = BillAddress?.Line3 ?? "";
+                                                var BillLine4 = BillAddress?.Line4 ?? "";
+
+                                                var ShipAddress = Model.QueryResponse.Invoice[e].ShipAddr;
+                                                var ShipLine1 = ShipAddress?.Line1 ?? "";
+                                                var ShipCity = ShipAddress?.City ?? "";
+                                                var ShipCountrySubDivisionCode = ShipAddress?.CountrySubDivisionCode ?? "";
+                                                var ShipPostalCode = ShipAddress?.PostalCode ?? "";
+                                                <hr class="my-5">
+                                               @* <div class="col-md-12 text-right">
+                                                    <button class="btn btn-primary" onclick="openPopup('myModal@(e)','headModal@(e)')">View Details</button>
+                                                </div>*@
+                                                <div class="row pb-5 p-5" id="myModal@(e)">
+                                                    <div class="col-md-6">
+                                                        <p class="font-weight-bold mb-4">Client Information</p>
+                                                        <p class="mb-1">@Model.QueryResponse.Invoice[e].CustomerRef.name</p>
+
+                                                        <p class="font-weight-bold mb-4">Billing Address</p>
+                                                        <p class="mb-1"> @BillLine1,  @BillLine2, @BillLine3, @BillLine4</p>
+
+
+                                                    </div>
+
+                                                    <div class="col-md-6 text-right">
+
+                                                        <p class="font-weight-bold mb-4">Shipping Address</p>
+                                                        <p class="mb-1">@ShipLine1, @ShipCity, @ShipCountrySubDivisionCode, @ShipPostalCode</p>
+
+                                                    </div>
+                                                </div>
+
+                                            <table class="table" id="headModal@(e)">
+                                                @if (Model != null)
+                                                {
+                                                    @for (int g = e; g < Model.QueryResponse.Invoice.Count; g++)
+                                                    {
+                                                            <button onclick="downloadAsPDF()">Download as PDF</button>
+
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">Id</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">DESCRIPTION</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">QTY</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">UNIT PRICE</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">Due Date</th>
+                                                                <th class="border-0 text-uppercase small font-weight-bold">Remaining days</th>
+                                                            </tr>
+
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            @for (int i = g; i < Model.QueryResponse.Invoice.Count; i++)
+                                                            {
+
+                                                                for (int j = 0; j < Model.QueryResponse.Invoice[i].Line.Count; j++)
+                                                                {
+                                                                    var line = Model.QueryResponse.Invoice[i].Line[j];
+                                                                    var unitPrice = line.SalesItemLineDetail?.UnitPrice ?? 0.0; // Use 0.0 as default value if UnitPrice is null
+                                                                    var Qty = line.SalesItemLineDetail?.Qty ?? 0.0;
+                                                                    <tr>
+                                                                        <td>@j</td>
+                                                                        <td>@line.Description</td>
+                                                                        <td>@Qty</td>
+                                                                        <td>@unitPrice</td>
+                                                                        <td>@line.Amount</td>
+                                                                        <td>@Model.QueryResponse.Invoice[i].DueDate</td>
+                                                                        @{
+                                                                            SubTotal += @unitPrice;
+                                                                            GrandTotal += @line.Amount;
+                                                                            DateTime targetDate = DateTime.Parse(Model.QueryResponse.Invoice[i].DueDate);
+                                                                            DateTime today = DateTime.Today;
+                                                                            int remainingDays = (targetDate - today).Days;
+                                                                        }
+                                                                        @{
+                                                                            if (@remainingDays > 0)
+                                                                            {
+                                                                                                <td>
+                                                                                                    @remainingDays Remaining
+                                                                                                </td>
+                                                                            }
+                                                                            else if (@remainingDays == 0)
+                                                                            {
+                                                                                                <td>
+                                                                                                    Last Day
+                                                                                                </td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                                <td>
+                                                                                                    @Math.Abs(@remainingDays) Past due
+                                                                                                </td>
+                                                                            }
+                                                                        }
+                                                                    </tr>
+
+                                                                }
+                                                                break;
+                                                            }
+
+
+                                                        </tbody>
+                                                        break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="border-0 text-uppercase small font-weight-bold">DESCRIPTION</th>
+                                                            <th class="border-0 text-uppercase small font-weight-bold">QTY</th>
+                                                            <th class="border-0 text-uppercase small font-weight-bold">UNIT PRICE</th>
+                                                            @*    <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>*@
+                                                            <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                                            <th class="border-0 text-uppercase small font-weight-bold">Due Date</th>
+                                                            <th class="border-0 text-uppercase small font-weight-bold">Remaining days</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td colspan="4">No records found.</td>
+                                                        </tr>
+                                                    </tbody>
+                                                }
+                                            </table>
+                                            }
+                                            @*</div>*@
+                                            @*</div>
+                                            </div>
+                                            *@
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

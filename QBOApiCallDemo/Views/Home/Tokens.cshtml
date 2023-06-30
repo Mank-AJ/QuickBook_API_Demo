@@ -1,0 +1,58 @@
+﻿@*@{
+    ViewBag.Title = "Tokens";
+}
+
+<br />
+
+@foreach (var claim in System.Security.Claims.ClaimsPrincipal.Current.Claims)
+{
+
+    if (@claim.Type == "access_token")
+    {
+                <p>Connection successful!</p>
+        break;
+    }
+
+}
+
+<br />
+
+@using (Html.BeginForm("ApiCallService", "App", FormMethod.Post))
+{
+
+        <div><input type="submit" name="submitButton" value="API Call service" /></div>
+        <br />
+
+        <br />
+}*@
+
+@{
+    var user = Context.User;
+    var tokenModel = ViewData.Model as QuickBooksTokenModel;
+    if (user.Identity.IsAuthenticated)
+    {
+        foreach (var claim in user.Claims)
+        {
+            if (claim.Type == "access_token")
+            {
+                <p>Connection successful!</p>
+
+                break;
+            }
+        }
+    }
+    else
+    {
+        <p>User not authenticated.</p>
+    }
+}
+
+
+@using (Html.BeginForm("ApiCallService", "Home", FormMethod.Post))
+{
+
+    <div><input type="submit" name="submitButton" value="API Call service" /></div>
+    <br />
+
+    <br />
+}
